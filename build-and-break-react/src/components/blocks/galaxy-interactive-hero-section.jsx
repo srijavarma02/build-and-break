@@ -1,12 +1,30 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, Suspense } from 'react';
 import { lazy } from 'react';
 import { TextScramble } from "@/components/ui/text-scramble";
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
-
 function HeroSplineBackground() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100vh',
+          background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%)',
+        }}
+      />
+    );
+  }
+
   return (
     <div
       style={{
@@ -16,13 +34,27 @@ function HeroSplineBackground() {
         pointerEvents: 'auto',
         overflow: 'hidden',
       }}>
-      <Spline
-        style={{
-          width: '100%',
-          height: '100vh',
-          pointerEvents: 'auto',
-        }}
-        scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode" />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100vh',
+              background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%)',
+            }}
+          />
+        }
+      >
+        <Spline
+          style={{
+            width: '100%',
+            height: '100vh',
+            pointerEvents: 'auto',
+          }}
+          scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
+        />
+      </Suspense>
       <div
         style={{
           position: 'absolute',
@@ -35,7 +67,8 @@ function HeroSplineBackground() {
             linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9))
           `,
           pointerEvents: 'none',
-        }} />
+        }}
+      />
     </div>
   );
 }
@@ -377,8 +410,7 @@ function Navbar() {
   );
 }
 
-export const HeroSection = () => { // Add 'export' here
-
+export const HeroSection = React.memo(() => {
   const heroContentRef = useRef(null);
 
   useEffect(() => {
@@ -386,7 +418,6 @@ export const HeroSection = () => { // Add 'export' here
       if (heroContentRef.current) {
         requestAnimationFrame(() => {
           const scrollPosition = window.pageYOffset;
-
           const maxScroll = 400;
           const opacity = 1 - Math.min(scrollPosition / maxScroll, 1);
           if (heroContentRef.current) {
@@ -409,22 +440,24 @@ export const HeroSection = () => { // Add 'export' here
         <div
           ref={heroContentRef}
           style={{
-            position: 'absolute', top: 0, left: 0, width: '100%', height: '100vh',
-            display: 'flex', justifyContent: 'flex-start', alignItems: 'center', zIndex: 10, pointerEvents: 'none'
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            zIndex: 10,
+            pointerEvents: 'none'
           }}>
           <div className="container mx-auto">
             <HeroContent />
           </div>
         </div>
       </div>
-      <div className="bg-black relative z-10" style={{ marginTop: '-10vh' }}>
-        <div className="container mx-auto px-4 py-16 text-white">
-            <h2 className="text-4xl font-bold text-center mb-8">Other Content Below</h2>
-             <p className="text-center max-w-xl mx-auto opacity-80">This is where additional sections of your landing page would go.</p>
-        </div>
-      </div>
     </div>
   );
-};
+});
 
   

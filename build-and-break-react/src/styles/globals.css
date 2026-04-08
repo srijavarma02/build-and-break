@@ -54,6 +54,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --aurora-color1: rgba(168,85,247,0.2);
+  --aurora-color2: rgba(79,70,229,0.2);
 }
 
 * {
@@ -68,10 +70,210 @@ html {
 
 body {
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #060609;
+  color: #e8e8f0;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* ─── Site Layout Utilities ─────────────────────────────── */
+.site-section {
+  width: 100%;
+  padding: 96px 0;
+  background: #060609;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+}
+
+.site-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+@media (max-width: 768px) {
+  .site-section { padding: 64px 0; }
+  .site-container { padding: 0 24px; }
+}
+
+.site-title-block {
+  margin-bottom: 48px;
+}
+
+.site-eyebrow {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #00b4ff;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.site-h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.site-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ─── Card ──────────────────────────────────────────────── */
+.site-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.site-card:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(0,180,255,0.3);
+  transform: scale(1.015);
+  box-shadow: 0 8px 32px rgba(0,180,255,0.06);
+}
+
+/* ─── Grids ─────────────────────────────────────────────── */
+.site-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.site-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.site-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .site-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .site-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .site-grid-2,
+  .site-grid-3,
+  .site-grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ─── Badge ─────────────────────────────────────────────── */
+.site-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #00b4ff;
+  background: rgba(0,180,255,0.1);
+  border: 1px solid rgba(0,180,255,0.2);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* ─── CTA Panel ─────────────────────────────────────────── */
+.site-cta-panel {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 80px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 280px;
+  background: rgba(0,180,255,0.05);
+  filter: blur(60px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+.site-btn-primary {
+  display: inline-block;
+  background: #00b4ff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  text-decoration: none;
+}
+
+.site-btn-primary:hover {
+  background: #0096d6;
+  box-shadow: 0 8px 24px rgba(0,180,255,0.25);
+  transform: scale(1.02);
+}
+
+.site-btn-secondary {
+  display: inline-block;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+  text-decoration: none;
+}
+
+.site-btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.02);
+}
+
+/* ─── Step pill ─────────────────────────────────────────── */
+.site-step-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 10px 16px;
+  transition: border-color 0.2s ease;
+}
+
+.site-step-pill:hover {
+  border-color: rgba(0,180,255,0.2);
+}
+
+.site-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00b4ff;
+  opacity: 0.7;
+  flex-shrink: 0;
 }
 
 a {
@@ -141,6 +343,18 @@ ul {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-aurora-color2: var(----aurora-color2);
+  --color-aurora-color1: var(----aurora-color1);
+  @keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+    }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+    }
+  }
 }
 
 .dark {
@@ -187,4 +401,61 @@ ul {
   html {
     @apply font-sans;
   }
+}
+
+/* ─── SpotlightCard ──────────────────────────────────────── */
+.sc-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* spotlight CSS vars with defaults */
+  --sx: 50%;
+  --sy: 50%;
+  --sc: rgba(0, 229, 255, 0.13);
+}
+
+.sc-card.sc-active {
+  border-color: rgba(0, 229, 255, 0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 180, 255, 0.07);
+}
+
+/* Radial spotlight overlay */
+.sc-spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    500px circle at var(--sx) var(--sy),
+    var(--sc),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.sc-card.sc-active .sc-spot {
+  opacity: 1;
+}
+
+/* Content sits above the spotlight */
+.sc-content {
+  position: relative;
+  z-index: 1;
+  padding: 32px;
+}
+
+/* ─── Hide Spline Watermark ────────────────────────────── */
+a[href*="spline.design"],
+#spline-watermark {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }

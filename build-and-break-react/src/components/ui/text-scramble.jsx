@@ -1,5 +1,5 @@
 'use client';;
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 const defaultChars =
@@ -16,7 +16,7 @@ export function TextScramble({
   onScrambleComplete,
   ...props
 }) {
-  const MotionComponent = motion.create(Component);
+  const MotionComponent = useMemo(() => motion.create ? motion.create(Component) : motion(Component), [Component]);
   const [displayText, setDisplayText] = useState(children);
   const [isAnimating, setIsAnimating] = useState(false);
   const text = children;
