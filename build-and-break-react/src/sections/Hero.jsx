@@ -48,21 +48,8 @@ export default function Hero() {
           pointerEvents: "none",
           transition: "opacity 0.05s linear",
           zIndex: 15,
-        }}
-      />
-
-      {/* ── 2. Cinematic gradient at the bottom ── */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "220px",
-          background: "linear-gradient(to bottom, transparent 0%, #060609 100%)",
-          pointerEvents: "none",
-          zIndex: 16,
+          WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)'
         }}
       />
     </section>

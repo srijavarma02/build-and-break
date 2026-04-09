@@ -11,7 +11,7 @@ const stats = [
 
 export default function PreviousEdition() {
   return (
-    <motion.section className="site-section" variants={sectionVariants} {...viewportOnce}>
+    <motion.section id="previous-edition" className="site-section" variants={sectionVariants} {...viewportOnce}>
       <div className="site-container">
 
         <motion.div className="site-title-block" variants={itemVariants} custom={0}>

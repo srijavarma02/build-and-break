@@ -12,7 +12,7 @@ const contacts = [
 
 export default function ContactSection() {
   return (
-    <motion.section className="site-section" variants={sectionVariants} {...viewportOnce}>
+    <motion.section id="contact" className="site-section" variants={sectionVariants} {...viewportOnce}>
       <div className="site-container">
 
         <motion.div className="site-title-block" variants={itemVariants} custom={0}>

@@ -1,79 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState, Suspense } from 'react';
-import { lazy } from 'react';
-import { TextScramble } from "@/components/ui/text-scramble";
-const Spline = lazy(() => import('@splinetool/react-spline'));
-
-function HeroSplineBackground() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '100vh',
-          background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%)',
-        }}
-      />
-    );
-  }
-
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        pointerEvents: 'auto',
-        overflow: 'hidden',
-      }}>
-      <Suspense
-        fallback={
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100vh',
-              background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%)',
-            }}
-          />
-        }
-      >
-        <Spline
-          style={{
-            width: '100%',
-            height: '100vh',
-            pointerEvents: 'auto',
-          }}
-          scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
-        />
-      </Suspense>
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100vh',
-          background: `
-            linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.8)),
-            linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9))
-          `,
-          pointerEvents: 'none',
-        }}
-      />
-    </div>
-  );
-}
-
-
+import React, { useEffect, useRef, useState } from 'react';
+import { TypewriterHeading } from "@/components/TypewriterHeading";
+import DotGrid from "@/components/DotGrid";
 
 function HeroContent() {
   return (
@@ -82,7 +11,7 @@ function HeroContent() {
         className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 leading-tight tracking-wide"
         style={{ textShadow: "0 4px 60px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.9)" }}>
         <span className="text-sm sm:text-lg md:text-xl text-[#00b4ff] uppercase tracking-widest block mb-2 font-semibold">ISOC Academic Hub Presents</span>
-        <TextScramble as="span" duration={2} speed={0.01}>Build & Break 2.0</TextScramble>
+        <TypewriterHeading />
         <span className="text-lg sm:text-2xl md:text-3xl block mt-2 opacity-95 font-medium">Where Ideas Clash and Innovation Grows</span>
       </h1>
       <p
@@ -433,8 +362,26 @@ export const HeroSection = React.memo(() => {
   return (
     <div className="relative">
       <div className="relative min-h-screen">
-        <div className="absolute inset-0 z-0 pointer-events-auto">
-          <HeroSplineBackground />
+        <div 
+          className="absolute inset-0 z-0 pointer-events-auto overflow-hidden"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
+          }}
+        >
+          <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+            <DotGrid
+              dotSize={5}
+              gap={15}
+              baseColor="#16121f"
+              activeColor="#5227FF"
+              proximity={120}
+              shockRadius={250}
+              shockStrength={5}
+              resistance={750}
+              returnDuration={1.5}
+            />
+          </div>
         </div>
 
         <div
@@ -455,6 +402,8 @@ export const HeroSection = React.memo(() => {
             <HeroContent />
           </div>
         </div>
+        
+
       </div>
     </div>
   );

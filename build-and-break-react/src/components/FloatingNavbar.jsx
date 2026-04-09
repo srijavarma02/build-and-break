@@ -1,97 +1,209 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const handleNavClick = (e, href, callback) => {
+  e.preventDefault();
+  const target = document.querySelector(href);
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (callback) callback();
+  }
+};
+
+const navLinks = [
+  { label: "Details", href: "#details" },
+  { label: "Structure", href: "#structure" },
+  { label: "Previous Edition", href: "#previous-edition" },
+  { label: "About", href: "#about" },
+  { label: "Contact Us", href: "#contact" },
+];
 
 export default function FloatingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
+  const [isBtnHovered, setIsBtnHovered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 300);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Check initial position on mount
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    "Details",
-    "Structure",
-    "Previous Edition",
-    "About",
-    "Contact Us"
-  ];
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveHash(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-100px 0px -40% 0px" }
+    );
+
+    const sections = navLinks.map(link => document.querySelector(link.href)).filter(Boolean);
+    const registrationSection = document.querySelector("#registration");
+    if (registrationSection) sections.push(registrationSection);
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
+  }, []);
 
   return (
-    <header
-      className={`fixed left-0 right-0 z-[60] transition-all duration-500 ease-out pointer-events-none w-full flex justify-center ${
-        isScrolled ? "top-6" : "top-0"
-      }`}
-    >
-      {/* 5. WIDTH FIX: max-w-[1400px] */}
-      <div className="w-[96%] max-w-[1400px]">
-        {/* 1. REMOVE EDGE-HUGGING BEHAVIOR (justify-between removed) */}
+    <>
+      <header
+        className={`fixed left-0 right-0 z-[60] transition-all duration-500 ease-out pointer-events-none flex justify-center w-full ${
+          isScrolled ? "top-4 sm:top-6 px-4" : "top-0"
+        }`}
+      >
         <nav
-          className={`relative pointer-events-auto flex items-center transition-all duration-500 ease-out border border-white/10 ${
+          style={{ 
+            paddingTop: isScrolled ? '10px' : '16px',
+            paddingBottom: isScrolled ? '10px' : '16px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            maxWidth: isScrolled ? '1200px' : '100%', 
+            width: isScrolled ? '90%' : '100%' 
+          }}
+          className={`relative pointer-events-auto mx-auto flex items-center justify-between transition-all duration-500 ease-out border border-white/10 ${
             isScrolled
-              ? "w-full bg-white/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] rounded-full py-3.5"
-              : "w-full bg-transparent border-transparent py-8"
+              ? "bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-2xl sm:rounded-full"
+              : "bg-transparent border-transparent"
           }`}
         >
-          {/* 3. LOGO POSITION FIX: flex-1 + pl-8 */}
-          <div className="flex-1 pl-8 md:pl-10">
-            <div 
-              className={`flex flex-shrink-0 items-center transition-all duration-700 ease-out ${
-                isScrolled ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6 pointer-events-none"
-              }`}
-            >
-              <span className="text-[#00b4ff] font-bold text-xl xl:text-3xl tracking-tight">
+          {/* Logo */}
+          <div 
+            style={{ 
+              minWidth: '60px', 
+              opacity: isScrolled ? 1 : 0,
+              transform: isScrolled ? 'translateX(0)' : 'translateX(-20px)',
+              transition: 'opacity 0.4s ease, transform 0.4s ease'
+            }}
+          >
+            <div className="flex flex-shrink-0 items-center">
+              <span className="text-[#00b4ff] font-bold text-xl sm:text-2xl tracking-tight">
                 ISOC
               </span>
             </div>
           </div>
 
-          {/* CENTER: Navigation Links */}
-          <div className="hidden lg:flex items-center gap-8 justify-center">
-            {navLinks.map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-[15px] font-semibold text-gray-300 hover:text-[#00b4ff] transition-colors tracking-wide"
-              >
-                {item}
-              </a>
-            ))}
+          {/* Desktop Nav links */}
+          <div className="hidden lg:flex items-center gap-10">
+            {navLinks.map((item) => {
+              const isActive = activeHash === item.href;
+              return (
+                <a 
+                  key={item.href} 
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`text-[13px] font-medium transition-colors tracking-wide px-1 py-1 ${
+                    isActive ? "text-cyan-400 border-b border-cyan-400" : "text-gray-300 hover:text-[#00b4ff]"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+
+            <button 
+              onClick={(e) => handleNavClick(e, "#registration")}
+              onMouseEnter={() => setIsBtnHovered(true)}
+              onMouseLeave={() => setIsBtnHovered(false)}
+              style={{
+                padding: '8px 20px',
+                borderRadius: '9999px',
+                border: '1px solid #00e5ff',
+                background: isBtnHovered ? '#00e5ff' : 'transparent',
+                color: isBtnHovered ? '#000' : '#00e5ff',
+                fontWeight: '600',
+                fontSize: '13px',
+                letterSpacing: '0.05em',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer',
+                transition: 'background 0.2s ease, color 0.2s ease, transform 0.2s ease',
+                marginLeft: '10px'
+              }}
+            >
+              Register
+            </button>
           </div>
 
-          {/* 4. BUTTON POSITION FIX: flex-1 + justify-end + pr-8 */}
-          <div className="flex-1 flex justify-end pr-8 md:pr-10">
-            <div className="flex-shrink-0">
-              <a
-                href="#register"
-                className={`group relative inline-flex items-center justify-center overflow-hidden rounded-full font-bold text-[15px] transition-all duration-300 ${
-                  isScrolled
-                    ? "px-10 py-3.5 bg-gradient-to-r from-[#00b4ff] to-[#0082ba] text-white shadow-[0_0_20px_rgba(0,180,255,0.4)] hover:shadow-[0_0_35px_rgba(0,180,255,0.7)] hover:-translate-y-0.5"
-                    : "px-10 py-3.5 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 hover:border-[#00b4ff]/50"
-                }`}
-              >
-                <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-150%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(150%)]">
-                  <div className="relative h-full w-8 bg-white/30" />
-                </div>
-                <span className="relative z-10 flex items-center gap-2">
-                  {/* 6. BUTTON TEXT */}
-                  Register
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </span>
-              </a>
-            </div>
-          </div>
+          {/* Mobile Hamburger Menu Icon */}
+          <button 
+            className="lg:hidden p-2 text-gray-300 hover:text-white transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth="2" 
+                d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} 
+              />
+            </svg>
+          </button>
         </nav>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed inset-0 z-[55] lg:hidden bg-[#060609]/95 backdrop-blur-2xl flex flex-col items-center justify-center p-8"
+          >
+            <div className="flex flex-col gap-8 w-full max-w-sm">
+              {navLinks.map((item, idx) => (
+                <motion.a
+                  key={item.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.05 }}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href, () => setIsMenuOpen(false))}
+                  className="text-2xl font-semibold text-gray-200 hover:text-[#00b4ff] transition-colors text-center py-2"
+                >
+                  {item.label}
+                </motion.a>
+              ))}
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                onClick={(e) => handleNavClick(e, "#registration", () => setIsMenuOpen(false))}
+                className="mt-8 bg-[#00b4ff] text-black font-bold py-4 rounded-xl text-xl shadow-[0_8px_32px_rgba(0,180,255,0.3)]"
+              >
+                Register Now
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

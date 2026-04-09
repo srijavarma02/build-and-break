@@ -21,11 +21,11 @@ export default function ParticipationSection() {
 
         <div className="site-grid-3">
           {info.map((item, i) => (
-            <motion.div key={i} variants={itemVariants} custom={i + 1}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)">
+            <motion.div key={i} variants={itemVariants} custom={i + 1} style={{ height: "100%" }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
                 <div style={{ fontSize: "1.6rem", marginBottom: "16px" }}>{item.icon}</div>
                 <h3 style={{ fontSize: "1.05rem", fontWeight: 600, color: "#fff", marginBottom: "10px" }}>{item.title}</h3>
-                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7 }}>{item.description}</p>
+                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7, flex: 1 }}>{item.description}</p>
               </SpotlightCard>
             </motion.div>
           ))}

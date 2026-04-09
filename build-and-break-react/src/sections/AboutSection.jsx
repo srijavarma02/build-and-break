@@ -46,8 +46,8 @@ export default function AboutSection() {
     <motion.section
       className="site-section relative z-30"
       style={{
-        marginTop: "-12rem", // create overlap over hero
-        paddingTop: "12rem", // offset margin difference
+        marginTop: "-16rem", // create overlap over hero
+        paddingTop: "16rem", // offset margin difference
         y: sectionY,
         opacity: sectionOpacity,
         scale: sectionScale,
@@ -80,15 +80,15 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.1 }}
         >
           {steps.map((step, i) => (
-            <motion.div key={i} variants={itemVariants} custom={i + 1}>
-               <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)">
+            <motion.div key={i} variants={itemVariants} custom={i + 1} style={{ height: "100%" }}>
+               <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
                 <div style={{ fontSize: "2rem", fontWeight: 700, color: "#00b4ff", opacity: 0.4, marginBottom: "20px", fontFamily: "monospace" }}>
                   {step.number}
                 </div>
                 <h4 style={{ fontSize: "1.05rem", fontWeight: 600, color: "#fff", marginBottom: "10px" }}>
                   {step.title}
                 </h4>
-                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7 }}>
+                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7, flex: 1 }}>
                   {step.description}
                 </p>
               </SpotlightCard>

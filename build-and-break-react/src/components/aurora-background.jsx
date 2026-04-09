@@ -1,82 +1,89 @@
-// src/components/aurora-background.jsx
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const AuroraBackground = ({
   className = "",
   children,
-  starCount = 400,
-  ariaLabel = "Animated aurora background",
 }) => {
+  const mouseBlobRef = useRef(null);
+
+  useEffect(() => {
+    // Elegant, delayed tracking of the mouse pointer
+    const handleMouseMove = (e) => {
+      if (!mouseBlobRef.current) return;
+      
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // Use Web Animations API for smooth performant interpolation
+      mouseBlobRef.current.animate({
+        left: `${x}px`,
+        top: `${y}px`
+      }, { duration: 4000, fill: "forwards" }); // Higher duration = slower, creamier movement
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <div
-      role="img"
-      aria-label={ariaLabel}
-      className={`relative w-full bg-[#060609] text-slate-50 overflow-hidden ${className}`}
+      className={`relative w-full text-slate-50 overflow-visible ${className}`}
     >
-      {/* Background layer spanning entire height of the wrapper */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Fixed Interactive Background Layer */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         
-        {/* Soft, scattered aurora blobs repeated across the vertical space */}
+        {/* Interactive glow gently following mouse */}
+        <div 
+          ref={mouseBlobRef}
+          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07]"
+          style={{
+            background: "radial-gradient(circle, #00e5ff 0%, transparent 70%)",
+            transform: "translate(-50%, -50%)",
+            top: "50%",
+            left: "50%"
+          }}
+        />
+
+        {/* Randomly placed floating aesthetic light orbs */}
         <motion.div
-          className="absolute inset-0 opacity-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
-        >
-          {/* Top segment blobs */}
-          <motion.div
-            className="absolute top-[5%] left-[0%] w-[60vw] h-[800px] bg-[#00e5ff] rounded-full filter blur-[150px] opacity-20"
-            animate={{ x: [-50, 50, -50], y: [-30, 30, -30] }}
-            transition={{ duration: 25, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute top-[15%] right-[0%] w-[50vw] h-[800px] bg-[#8b00ff] rounded-full filter blur-[150px] opacity-20"
-            animate={{ x: [50, -50, 50], y: [30, -30, 30] }}
-            transition={{ duration: 35, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          
-          {/* Middle segment blobs */}
-          <motion.div
-            className="absolute top-[45%] left-[20%] w-[50vw] h-[800px] bg-[#00e5ff] rounded-full filter blur-[150px] opacity-15"
-            animate={{ x: [-30, 30, -30], y: [20, -20, 20] }}
-            transition={{ duration: 30, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute top-[60%] right-[10%] w-[45vw] h-[800px] bg-[#8b00ff] rounded-full filter blur-[150px] opacity-15"
-            animate={{ x: [30, -30, 30], y: [-20, 20, -20] }}
-            transition={{ duration: 28, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
+          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.04]"
+          style={{ background: "#5227FF", top: "10%", left: "15%" }}
+          animate={{
+            x: [0, 150, -100, 0],
+            y: [0, -150, 100, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        />
+        
+        <motion.div
+          className="absolute w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.03]"
+          style={{ background: "#00e5ff", top: "60%", right: "10%" }}
+          animate={{
+            x: [0, -120, 80, 0],
+            y: [0, 140, -90, 0],
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
 
-          {/* Bottom segment blobs */}
-          <motion.div
-            className="absolute top-[85%] left-[10%] w-[60vw] h-[800px] bg-[#00e5ff] rounded-full filter blur-[150px] opacity-15"
-            animate={{ x: [-50, 50, -50], y: [-50, 50, -50] }}
-            transition={{ duration: 32, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-        </motion.div>
-
-        {/* Dense, small twinkling stars scattered physically across the ENTIRE vertical space */}
-        {Array.from({ length: starCount }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-white rounded-full mix-blend-screen"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: Math.random() * 1.5 + 0.5 + "px",
-              height: Math.random() * 1.5 + 0.5 + "px",
-              boxShadow: "0 0 4px 1px rgba(255,255,255,0.4)",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, Math.random() * 0.7 + 0.3, 0] }}
-            transition={{
-              duration: Math.random() * 3 + 1.5,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
+        <motion.div
+          className="absolute w-[700px] h-[700px] rounded-full blur-[140px] opacity-[0.02]"
+          style={{ background: "#8b00ff", bottom: "-15%", left: "35%" }}
+          animate={{
+            x: [0, 100, -120, 0],
+            y: [0, 80, -100, 0],
+          }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+        />
+        
+        {/* Subtle ultra-fine noise texture for premium matte feel */}
+        <div 
+          className="absolute inset-0 opacity-[0.035] mix-blend-screen" 
+          style={{ 
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat'
+          }} 
+        />
       </div>
 
       {/* Foreground content */}

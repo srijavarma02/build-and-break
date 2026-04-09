@@ -22,11 +22,11 @@ export default function EventHighlights() {
 
         <div className="site-grid-2">
           {highlights.map((h, i) => (
-            <motion.div key={i} variants={itemVariants} custom={i + 1}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)">
+            <motion.div key={i} variants={itemVariants} custom={i + 1} style={{ height: "100%" }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
                 <div style={{ fontSize: "1.6rem", marginBottom: "16px" }}>{h.icon}</div>
                 <h3 style={{ fontSize: "1.05rem", fontWeight: 600, color: "#fff", marginBottom: "10px" }}>{h.title}</h3>
-                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7 }}>{h.description}</p>
+                <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7, flex: 1 }}>{h.description}</p>
               </SpotlightCard>
             </motion.div>
           ))}

@@ -22,7 +22,7 @@
   --text-muted: #8888aa;
   --nav-h: 70px;
   --radius: 0.625rem;
-  --tr: 0.3s ease;
+  --tr: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -79,21 +79,25 @@ body {
 /* ─── Site Layout Utilities ─────────────────────────────── */
 .site-section {
   width: 100%;
-  padding: 96px 0;
-  background: #060609;
-  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 64px 0; /* Mobile default */
+  background: transparent;
   position: relative;
 }
 
 .site-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 24px; /* Mobile default */
 }
 
-@media (max-width: 768px) {
-  .site-section { padding: 64px 0; }
-  .site-container { padding: 0 24px; }
+@media (min-width: 768px) {
+  .site-section { padding: 80px 0; }
+  .site-container { padding: 0 32px; }
+}
+
+@media (min-width: 1024px) {
+  .site-section { padding: 112px 0; }
+  .site-container { padding: 0 48px; }
 }
 
 .site-title-block {
@@ -131,9 +135,13 @@ body {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
-  padding: 32px;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 24px; /* Smaller mobile padding */
+  transition: background-color var(--tr), border-color var(--tr), transform var(--tr), box-shadow var(--tr);
   cursor: default;
+}
+
+@media (min-width: 768px) {
+  .site-card { padding: 32px; }
 }
 
 .site-card:hover {
@@ -144,33 +152,24 @@ body {
 }
 
 /* ─── Grids ─────────────────────────────────────────────── */
-.site-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.site-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
+.site-grid-2,
+.site-grid-3,
 .site-grid-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
-@media (max-width: 1024px) {
-  .site-grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .site-grid-3 { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 640px) {
+  .site-grid-2, .site-grid-3, .site-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
 }
 
-@media (max-width: 640px) {
-  .site-grid-2,
-  .site-grid-3,
-  .site-grid-4 { grid-template-columns: 1fr; }
+@media (min-width: 1024px) {
+  .site-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .site-grid-4 { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ─── Badge ─────────────────────────────────────────────── */
@@ -227,9 +226,9 @@ body {
 }
 
 .site-btn-primary:hover {
-  background: #0096d6;
+  background-color: #0096d6;
   box-shadow: 0 8px 24px rgba(0,180,255,0.25);
-  transform: scale(1.02);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .site-btn-secondary {
@@ -396,7 +395,7 @@ ul {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
   }
   html {
     @apply font-sans;
@@ -411,7 +410,7 @@ ul {
   border-radius: 18px;
   overflow: hidden;
   cursor: default;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color var(--tr), transform var(--tr), box-shadow var(--tr);
 
   /* spotlight CSS vars with defaults */
   --sx: 50%;

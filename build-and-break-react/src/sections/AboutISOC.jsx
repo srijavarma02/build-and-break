@@ -7,7 +7,7 @@ const activities  = ["Workshops", "Competitions", "Seminars"];
 
 export default function AboutISOC() {
   return (
-    <motion.section className="site-section" variants={sectionVariants} {...viewportOnce}>
+    <motion.section id="about" className="site-section" variants={sectionVariants} {...viewportOnce}>
       <div className="site-container">
 
         <motion.div className="site-title-block" variants={itemVariants} custom={0}>
@@ -17,17 +17,20 @@ export default function AboutISOC() {
         </motion.div>
 
         <div className="site-grid-2">
-          <motion.div variants={itemVariants} custom={1}>
-            <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)" style={{ display: "flex", alignItems: "center" }}>
+          <motion.div variants={itemVariants} custom={1} style={{ height: "100%" }}>
+            <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)" style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+              <p style={{ fontSize: "0.97rem", color: "#d1d5db", lineHeight: 1.8, marginBottom: "16px" }}>
+                ISOC Academic Hub is a student-led organization at VNR VJIET dedicated to building a culture of innovation and technical excellence. We believe that the best learning happens when students are challenged to solve real problems, collaborate across disciplines, and present their ideas to the world.
+              </p>
               <p style={{ fontSize: "0.97rem", color: "#d1d5db", lineHeight: 1.8 }}>
-                ISOC Academic Hub is a student-led organization at VNR VJIET focused on innovation, collaboration, and technical growth. It brings together students to solve real-world problems and build impactful solutions.
+                Our community brings together curious minds from all branches, united by a passion for technology and a drive to make an impact.
               </p>
             </SpotlightCard>
           </motion.div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <motion.div variants={itemVariants} custom={2}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%" }}>
+            <motion.div variants={itemVariants} custom={2} style={{ flex: 1 }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#00b4ff", fontWeight: 600, marginBottom: "16px" }}>Key Focus Areas</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   {focusAreas.map((a, i) => (
@@ -40,8 +43,8 @@ export default function AboutISOC() {
               </SpotlightCard>
             </motion.div>
 
-            <motion.div variants={itemVariants} custom={3}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)">
+            <motion.div variants={itemVariants} custom={3} style={{ flex: 1 }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.12)" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#00b4ff", fontWeight: 600, marginBottom: "16px" }}>Activities</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   {activities.map((a, i) => (

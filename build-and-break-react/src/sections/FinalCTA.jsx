@@ -4,7 +4,7 @@ import { sectionVariants, itemVariants, viewportOnce } from "@/lib/animations";
 
 export default function FinalCTA() {
   return (
-    <motion.section className="site-section" variants={sectionVariants} {...viewportOnce}>
+    <motion.section id="registration" className="site-section" variants={sectionVariants} {...viewportOnce}>
       <div className="site-container">
         <motion.div variants={itemVariants} custom={0}>
           <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.10)" style={{ textAlign: "center" }}>

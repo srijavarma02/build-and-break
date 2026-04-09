@@ -11,7 +11,7 @@ const details = [
 
 export default function EventDetails() {
   return (
-    <motion.section className="site-section" variants={sectionVariants} {...viewportOnce}>
+    <motion.section id="details" className="site-section" variants={sectionVariants} {...viewportOnce}>
       <div className="site-container">
 
         <motion.div className="site-title-block" variants={itemVariants} custom={0}>

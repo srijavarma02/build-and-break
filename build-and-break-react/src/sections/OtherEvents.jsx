@@ -21,8 +21,8 @@ export default function OtherEvents() {
 
         <div className="site-grid-3">
           {events.map((ev, i) => (
-            <motion.div key={i} variants={itemVariants} custom={i + 1}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ display: "flex", flexDirection: "column" }}>
+            <motion.div key={i} variants={itemVariants} custom={i + 1} style={{ height: "100%" }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                 <div style={{ marginBottom: "16px" }}>
                   <span className="site-badge">{ev.type}</span>
                 </div>
@@ -33,6 +33,20 @@ export default function OtherEvents() {
           ))}
         </div>
 
+        <motion.p 
+          variants={itemVariants} 
+          custom={events.length + 1}
+          style={{ 
+            textAlign: "center", 
+            marginTop: "48px", 
+            color: "#6b7280", 
+            fontSize: "0.95rem", 
+            fontStyle: "italic",
+            letterSpacing: "0.025em" 
+          }}
+        >
+          ...and many more exciting initiatives throughout the year.
+        </motion.p>
       </div>
     </motion.section>
   );

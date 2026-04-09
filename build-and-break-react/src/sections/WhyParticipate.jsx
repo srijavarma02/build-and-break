@@ -22,13 +22,13 @@ export default function WhyParticipate() {
 
         <div className="site-grid-2">
           {reasons.map((r, i) => (
-            <motion.div key={i} variants={itemVariants} custom={i + 1}>
-              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)">
-                <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
+            <motion.div key={i} variants={itemVariants} custom={i + 1} style={{ height: "100%" }}>
+              <SpotlightCard spotlightColor="rgba(0, 229, 255, 0.13)" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", gap: "20px", alignItems: "flex-start", height: "100%" }}>
                   <span style={{ fontSize: "1.8rem", fontWeight: 700, color: "#00b4ff", opacity: 0.35, fontFamily: "monospace", lineHeight: 1, flexShrink: 0, marginTop: "2px" }}>{r.number}</span>
-                  <div>
+                  <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                     <h3 style={{ fontSize: "1.05rem", fontWeight: 600, color: "#fff", marginBottom: "8px" }}>{r.title}</h3>
-                    <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7 }}>{r.description}</p>
+                    <p style={{ fontSize: "0.88rem", color: "#6b7280", lineHeight: 1.7, flex: 1 }}>{r.description}</p>
                   </div>
                 </div>
               </SpotlightCard>
